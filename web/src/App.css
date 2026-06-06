@@ -1,0 +1,199 @@
+/*
+ * Theming via CSS custom properties + the native `light-dark()` function.
+ * `color-scheme` decides which side of every `light-dark(light, dark)` pair is
+ * used, so a single token set serves both themes with no duplication:
+ *   - no [data-theme]      -> follows the OS preference (color-scheme: light dark)
+ *   - [data-theme="light"] -> forces light
+ *   - [data-theme="dark"]  -> forces dark
+ * useTheme.ts sets the attribute on <html>.
+ */
+:root {
+  color-scheme: light dark;
+
+  --color-bg-start: light-dark(#e8eef6, #141e30);
+  --color-bg-end: light-dark(#cdd9ea, #243b55);
+  --color-surface: light-dark(#ffffff, #1f2937);
+  --color-border: light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.08));
+  --color-text: light-dark(#16202e, #ffffff);
+  --color-text-muted: light-dark(#516074, #c2cad6);
+  --color-accent: light-dark(#c62828, #ef5350);
+  --color-accent-hover: light-dark(#b71c1c, #e53935);
+  --color-on-accent: #ffffff;
+  --color-focus: light-dark(#1a56db, #8ab4ff);
+  --color-success: light-dark(#15803d, #4ade80);
+  --color-error: light-dark(#b91c1c, #fca5a5);
+  --color-overlay: rgba(0, 0, 0, 0.7);
+
+  --radius: 10px;
+  --space: 20px;
+  --max-width: 640px;
+  --font-sans: Arial, Helvetica, sans-serif;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: linear-gradient(
+    to right,
+    var(--color-bg-start),
+    var(--color-bg-end)
+  );
+  min-height: 100vh;
+}
+
+.app {
+  text-align: center;
+}
+
+.card {
+  margin: var(--space) auto;
+  padding: var(--space);
+  max-width: var(--max-width);
+  background: var(--color-surface);
+  border-radius: var(--radius);
+}
+
+.app-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space);
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.app-header h1 {
+  margin: 0;
+}
+
+.app-header__actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.muted {
+  color: var(--color-text-muted);
+}
+
+.event-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.event {
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.event h3 {
+  margin: 0 0 4px;
+}
+
+button {
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
+  border: none;
+  padding: 10px 20px;
+  margin: 10px 0;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+button:hover:not(:disabled) {
+  background-color: var(--color-accent-hover);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.theme-toggle:hover:not(:disabled) {
+  background: var(--color-border);
+}
+
+.status {
+  font-weight: 600;
+}
+
+.status--success {
+  color: var(--color-success);
+}
+
+.status--error {
+  color: var(--color-error);
+}
+
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--color-overlay);
+  z-index: 10;
+}
+
+.loading-message {
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+
+/* Accessibility: visible keyboard focus + skip link */
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--color-surface);
+  color: var(--color-text);
+  padding: 8px 16px;
+  border-radius: 0 0 var(--radius) 0;
+  z-index: 20;
+}
+
+.skip-link:focus {
+  left: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

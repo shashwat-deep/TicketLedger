@@ -1,0 +1,23 @@
+[package]
+name = "TicketLedger"
+version = "1.0.0"
+license = "MIT"
+authors = ["TicketLedger contributors"]
+
+[addresses]
+# Address the package is published under. Override at publish time with
+#   aptos move publish --named-addresses ticketledger=<your-address>
+ticketledger = "0xaad1cc4ea369a57f87ffaa82caf57053c8f47513a1efd0345f6b983faaacc9b2"
+
+# Pinned to an exact aptos-core commit (on the `mainnet` branch) for reproducible
+# builds. To advance the framework, set both revs to a newer commit, e.g. from:
+#   git ls-remote https://github.com/aptos-labs/aptos-core.git mainnet
+[dependencies.AptosFramework]
+git = "https://github.com/aptos-labs/aptos-core.git"
+subdir = "aptos-move/framework/aptos-framework"
+rev = "ea05dac18f5cbf79a4b83bbbacb2690657f0198b"
+
+[dependencies.AptosTokenObjects]
+git = "https://github.com/aptos-labs/aptos-core.git"
+subdir = "aptos-move/framework/aptos-token-objects"
+rev = "ea05dac18f5cbf79a4b83bbbacb2690657f0198b"
