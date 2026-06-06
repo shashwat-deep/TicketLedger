@@ -5,7 +5,7 @@
   "description": "TicketLedger web client — mint event tickets as Aptos Digital Assets.",
   "type": "module",
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "scripts": {
     "dev": "vite",
