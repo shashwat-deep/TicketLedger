@@ -42,7 +42,8 @@ branch as a baseline.
 - Repository restructured: `nft2/aptos` → `contracts`, `ticketledger` → `web`.
 - `App.tsx` monolith split into config / lib / feature / component layers.
 - Transactions now wait for confirmation via `aptos.waitForTransaction`.
-- Move framework dependency pinned to the `mainnet` branch (was `main`).
+- Move framework dependency pinned to an exact `aptos-core` commit for
+  reproducible builds (was the floating `main` branch).
 - Dev toolchain updated; safe minor/patch dependency bumps applied.
 
 ### Fixed
