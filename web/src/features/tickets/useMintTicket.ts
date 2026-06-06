@@ -24,12 +24,14 @@ const IDLE: MintState = { status: "idle", message: null, hash: null };
  * components stay presentational.
  */
 export function useMintTicket() {
-  const { account, connected, signAndSubmitTransaction } = useWallet();
+  // Use the wallet object directly (rather than destructuring its methods) so
+  // the context-bound signAndSubmitTransaction keeps its `this` binding.
+  const wallet = useWallet();
   const [state, setState] = useState<MintState>(IDLE);
 
   const mint = useCallback(
     async (event: EventInfo) => {
-      if (!connected || !account) {
+      if (!wallet.connected || !wallet.account) {
         setState({
           status: "error",
           message: "Please connect your wallet first.",
@@ -52,7 +54,10 @@ export function useMintTicket() {
           },
         };
 
-        const { hash } = await signAndSubmitTransaction(payload);
+        // The wallet adapter types this response loosely; narrow to what we use.
+        const { hash } = (await wallet.signAndSubmitTransaction(payload)) as {
+          hash: string;
+        };
         await aptos.waitForTransaction({ transactionHash: hash });
 
         setState({
@@ -71,7 +76,7 @@ export function useMintTicket() {
         });
       }
     },
-    [account, connected, signAndSubmitTransaction],
+    [wallet],
   );
 
   const reset = useCallback(() => setState(IDLE), []);

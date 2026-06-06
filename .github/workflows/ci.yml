@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  web:
+    name: Web (lint · typecheck · test · build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run test:run
+      - run: npm run build
+        env:
+          VITE_APTOS_MODULE_ADDRESS: "0xaad1cc4ea369a57f87ffaa82caf57053c8f47513a1efd0345f6b983faaacc9b2"
+          VITE_APTOS_MODULE_NAME: ticket_nft
+          VITE_APTOS_NETWORK: testnet
+
+  contract:
+    name: Move contract (compile · test)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Aptos CLI
+        run: |
+          curl -fsSL "https://aptos.dev/scripts/install_cli.py" -o install_cli.py
+          python3 install_cli.py
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Run Move tests
+        run: aptos move test --package-dir contracts
+        env:
+          APTOS_DISABLE_TELEMETRY: "true"

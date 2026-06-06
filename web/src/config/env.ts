@@ -49,8 +49,6 @@ const network = parseNetwork(import.meta.env.VITE_APTOS_NETWORK);
 export const appConfig = { moduleAddress, moduleName, network } as const;
 
 /** Fully-qualified Move entry/view function id, e.g. `0x1::ticket_nft::mint_ticket`. */
-export function entryFunction(
-  name: string,
-): `${string}::${string}::${string}` {
+export function entryFunction(name: string): `${string}::${string}::${string}` {
   return `${moduleAddress}::${moduleName}::${name}`;
 }

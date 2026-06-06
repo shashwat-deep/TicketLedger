@@ -15,12 +15,16 @@ export function EventList() {
       {pending && <LoadingOverlay />}
 
       {message && (
-        <p className={`status status--${status}`} role="status" aria-live="polite">
+        <p
+          className={`status status--${status}`}
+          role="status"
+          aria-live="polite"
+        >
           {message}
         </p>
       )}
 
-      <ul className="event-list" role="list">
+      <ul className="event-list">
         {EVENTS.map((event) => (
           <li key={event.id}>
             <EventCard
