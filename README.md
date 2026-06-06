@@ -47,7 +47,7 @@ layout.
 
 ## Prerequisites
 
-- **Node.js** ≥ 20 and npm
+- **Node.js** ≥ 22 and npm
 - **[Aptos CLI](https://aptos.dev/tools/aptos-cli/)** (only to build/test/deploy
   the Move package)
 - A **[Petra wallet](https://petra.app/)** browser extension (to use the app)
