@@ -1,10 +1,22 @@
 [package]
-name = "TicketNFT"
+name = "TicketLedger"
 version = "1.0.0"
+license = "MIT"
+authors = ["TicketLedger contributors"]
 
 [addresses]
-moduleAddress = "0xaad1cc4ea369a57f87ffaa82caf57053c8f47513a1efd0345f6b983faaacc9b2"
+# Address the package is published under. Override at publish time with
+#   aptos move publish --named-addresses ticketledger=<your-address>
+ticketledger = "0xaad1cc4ea369a57f87ffaa82caf57053c8f47513a1efd0345f6b983faaacc9b2"
 
-[dependencies]
-AptosFramework = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-framework", rev = "main" }
-MoveStdlib = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/move-stdlib", rev = "main" }
+# Pinned to the `mainnet` framework branch for a stable API surface. For fully
+# reproducible builds, pin `rev` to an exact release tag or commit hash.
+[dependencies.AptosFramework]
+git = "https://github.com/aptos-labs/aptos-core.git"
+subdir = "aptos-move/framework/aptos-framework"
+rev = "mainnet"
+
+[dependencies.AptosTokenObjects]
+git = "https://github.com/aptos-labs/aptos-core.git"
+subdir = "aptos-move/framework/aptos-token-objects"
+rev = "mainnet"
