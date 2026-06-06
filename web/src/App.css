@@ -1,45 +1,152 @@
+:root {
+  --color-bg-start: #141e30;
+  --color-bg-end: #243b55;
+  --color-surface: #1f2937;
+  --color-text: #ffffff;
+  --color-text-muted: #c2cad6;
+  --color-accent: #f44336;
+  --color-accent-hover: #d32f2f;
+  --color-focus: #8ab4ff;
+  --color-success: #4ade80;
+  --color-error: #fca5a5;
+  --radius: 10px;
+  --space: 20px;
+  --max-width: 640px;
+  --font-sans: Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
-  padding: 0;
-  background: linear-gradient(to right, #141e30, #243b55);
-  color: #fff;
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: linear-gradient(
+    to right,
+    var(--color-bg-start),
+    var(--color-bg-end)
+  );
+  min-height: 100vh;
+}
+
+.app {
   text-align: center;
 }
 
-.auth-container,
-header,
-.events,
-main {
-  margin: 20px auto;
-  padding: 20px;
-  max-width: 500px;
-  background: #1f2937;
-  border-radius: 10px;
+.card {
+  margin: var(--space) auto;
+  padding: var(--space);
+  max-width: var(--max-width);
+  background: var(--color-surface);
+  border-radius: var(--radius);
+}
+
+.app-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space);
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.app-header h1 {
+  margin: 0;
+}
+
+.app-header__actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.muted {
+  color: var(--color-text-muted);
+}
+
+.event-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.event {
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+}
+
+.event h3 {
+  margin: 0 0 4px;
 }
 
 button {
-  background-color: #f44336;
-  color: white;
+  background-color: var(--color-accent);
+  color: #fff;
   border: none;
   padding: 10px 20px;
   margin: 10px 0;
   cursor: pointer;
   border-radius: 5px;
+  font-size: 1rem;
 }
 
-button:hover {
-  background-color: #d32f2f;
+button:hover:not(:disabled) {
+  background-color: var(--color-accent-hover);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.status {
+  font-weight: 600;
+}
+
+.status--success {
+  color: var(--color-success);
+}
+
+.status--error {
+  color: var(--color-error);
+}
+
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 10;
 }
 
 .loading-message {
-  font-family: "Courier New";
-  font-size: 100px;
-  margin: 30px 30px 30px 30px;
-  color: white;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+/* Accessibility: keyboard focus + skip link */
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--color-surface);
+  color: var(--color-text);
+  padding: 8px 16px;
+  border-radius: 0 0 var(--radius) 0;
+  z-index: 20;
+}
+
+.skip-link:focus {
+  left: 0;
 }

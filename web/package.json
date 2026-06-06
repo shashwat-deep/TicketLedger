@@ -1,8 +1,12 @@
 {
-  "name": "ticketledger",
+  "name": "ticketledger-web",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "TicketLedger web client — mint event tickets as Aptos Digital Assets.",
   "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -13,7 +17,6 @@
     "@aptos-labs/ts-sdk": "^1.33.0",
     "@aptos-labs/wallet-adapter-ant-design": "^3.0.18",
     "@aptos-labs/wallet-adapter-react": "^3.7.4",
-    "dotenv": "^16.4.5",
     "petra-plugin-wallet-adapter": "^0.4.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
