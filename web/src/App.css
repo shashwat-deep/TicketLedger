@@ -1,18 +1,41 @@
+/*
+ * Theming via CSS custom properties + the native `light-dark()` function.
+ * `color-scheme` decides which side of every `light-dark(light, dark)` pair is
+ * used, so a single token set serves both themes with no duplication:
+ *   - no [data-theme]      -> follows the OS preference (color-scheme: light dark)
+ *   - [data-theme="light"] -> forces light
+ *   - [data-theme="dark"]  -> forces dark
+ * useTheme.ts sets the attribute on <html>.
+ */
 :root {
-  --color-bg-start: #141e30;
-  --color-bg-end: #243b55;
-  --color-surface: #1f2937;
-  --color-text: #ffffff;
-  --color-text-muted: #c2cad6;
-  --color-accent: #f44336;
-  --color-accent-hover: #d32f2f;
-  --color-focus: #8ab4ff;
-  --color-success: #4ade80;
-  --color-error: #fca5a5;
+  color-scheme: light dark;
+
+  --color-bg-start: light-dark(#e8eef6, #141e30);
+  --color-bg-end: light-dark(#cdd9ea, #243b55);
+  --color-surface: light-dark(#ffffff, #1f2937);
+  --color-border: light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.08));
+  --color-text: light-dark(#16202e, #ffffff);
+  --color-text-muted: light-dark(#516074, #c2cad6);
+  --color-accent: light-dark(#c62828, #ef5350);
+  --color-accent-hover: light-dark(#b71c1c, #e53935);
+  --color-on-accent: #ffffff;
+  --color-focus: light-dark(#1a56db, #8ab4ff);
+  --color-success: light-dark(#15803d, #4ade80);
+  --color-error: light-dark(#b91c1c, #fca5a5);
+  --color-overlay: rgba(0, 0, 0, 0.7);
+
   --radius: 10px;
   --space: 20px;
   --max-width: 640px;
   --font-sans: Arial, Helvetica, sans-serif;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 * {
@@ -76,7 +99,7 @@ body {
 
 .event {
   padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius);
 }
 
@@ -86,7 +109,7 @@ body {
 
 button {
   background-color: var(--color-accent);
-  color: #fff;
+  color: var(--color-on-accent);
   border: none;
   padding: 10px 20px;
   margin: 10px 0;
@@ -102,6 +125,20 @@ button:hover:not(:disabled) {
 button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.theme-toggle:hover:not(:disabled) {
+  background: var(--color-border);
 }
 
 .status {
@@ -121,16 +158,16 @@ button:disabled {
   inset: 0;
   display: grid;
   place-items: center;
-  background: rgba(0, 0, 0, 0.7);
+  background: var(--color-overlay);
   z-index: 10;
 }
 
 .loading-message {
   font-size: 1.5rem;
-  color: #fff;
+  color: #ffffff;
 }
 
-/* Accessibility: keyboard focus + skip link */
+/* Accessibility: visible keyboard focus + skip link */
 :focus-visible {
   outline: 3px solid var(--color-focus);
   outline-offset: 2px;
@@ -149,4 +186,14 @@ button:disabled {
 
 .skip-link:focus {
   left: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

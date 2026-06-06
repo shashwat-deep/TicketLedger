@@ -1,6 +1,7 @@
 import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
+import { ThemeToggle } from "./ThemeToggle";
 
-/** App banner: title, tagline, and the wallet connect control. */
+/** App banner: title, tagline, theme toggle, and the wallet connect control. */
 export function Header() {
   return (
     <header className="app-header card">
@@ -9,6 +10,7 @@ export function Header() {
         <p className="muted">Your gateway to exclusive events</p>
       </div>
       <div className="app-header__actions">
+        <ThemeToggle />
         <WalletSelector />
       </div>
     </header>
